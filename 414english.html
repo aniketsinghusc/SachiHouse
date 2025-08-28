@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>414 Card Game</title>
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Slick JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <style>
+        /* CSS スタイル */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        #container {
+            text-align: center;
+            height: 100%;
+        }
+
+        .page {
+            display: -webkit-boxa;
+            display: -ms-flexbox;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #introPage {
+            overflow-y: hidden;
+        }
+
+        .page iframe {
+            width: 100%;
+            height: 70%;
+        }
+
+        .page button {
+            margin-top: 20px;
+            font-size: 36px;
+            padding: 35px 120px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .page button:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .page h2 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            max-width: 250px;
+            max-height: 350px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+        }
+
+
+        #backButton, #confirmButton, #backButtonBottom, #nextButtonBottom, #endButton, #reflectionButton, #outputButton {
+            font-size: 24px;
+            padding: 15px 40px;
+            border: none;
+            background-color: #6c757d;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        #backButton:hover, #confirmButton:hover, #backButtonBottom:hover, #nextButtonBottom:hover, #endButton:hover, #reflectionButton:hover, #outputButton:hover {
+            background-color: #5a6268;
+        }
+
+        #buttonContainer, #carouselContainer {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            margin-top: 10px;
+        }
+
+        #nextToIntroButton {
+            font-size: 24px;
+            padding: 15px 40px;
+            border: none;
+            background-color: #6c757d;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 30px;
+        }
+
+        #backToIntroButton {
+            font-size: 24px;
+            padding: 15px 40px;
+            border: none;
+            background-color: #6c757d;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 150px;
+            margin-bottom: 30px;
+        }
+
+        #selectedCardPage, #relatedCardPage, #reflectionPage {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        #selectedCardContainer, #relatedCardContainer {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 50%;
+        }
+
+        #selectedCardContainer img, #relatedCardContainer img {
+            max-width: 90%;
+            max-height: 100%;
+        }
+
+        #commentContainer {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            width: 90%;
+            padding: 20px;
+        }
+
+        #commentArea, #relatedCommentArea, #reflectionComment1, #reflectionComment2, #reflectionComment3 {
+            width: 100%;
+            height: 80%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        .slick-prev, .slick-next {
+            font-size: 30px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .slick-prev {
+            left: -40px;
+        }
+
+        .slick-next {
+            right: -40px;
+        }
+
+        .slick-prev:hover, .slick-next:hover {
+            background-color: #0056b3;
+        }
+
+        .slick-slider {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .slick-slide {
+            margin: 0 5px;
+        }
+
+        .slick-slide img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .carousel {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .carousel div {
+            display: inline-block;
+            width: calc(100% / 4);
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="introPage" class="page" style="display: block;">
+            <!-- YouTube動画の埋め込み -->
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/MGg-n-81k9A" frameborder="0" allowfullscreen></iframe>
+            <button id="nextToIntroButton" onclick="nextPage()">Next</button>
+        </div>
+        <div id="themeSelectionPage" class="page">
+            <h2>Which theme would you like to start with?</h2>
+            <button onclick="selectTheme('Future Living')">Future Living</button>
+            <button onclick="selectTheme('End of Life')">End of Life</button>
+            <button id="backToIntroButton" onclick="backToIntroPage()">Back</button>
+        </div>
+        <div id="cardSelectionPage" class="page">
+            <h2>Please select a card that represents what you value</h2>
+            <div id="carouselContainer">
+                <div id="cardCarousel" class="carousel"></div>
+            </div>
+            <div id="buttonContainer">
+                <button id="backButton" onclick="backToThemeSelection()">Back</button>
+                <button id="confirmButton" onclick="confirmSelection()">Confirm</button>
+            </div>
+        </div>
+        <div id="selectedCardPage" class="page">
+            <h2>Why did you choose this card?</h2>
+            <div id="selectedCardContainer">
+                <img id="selectedCardImage" src="" alt="Selected Card" />
+            </div>
+            <div id="commentContainer">
+                <textarea id="commentArea" placeholder="Write your reason (up to 1,000 characters)" maxlength="1000"></textarea>
+            </div>
+            <div id="buttonContainer">
+                <button id="backButtonBottom" onclick="backToCardSelection()">Back</button>
+                <button id="nextButtonBottom" onclick="nextPage()">Next</button>
+            </div>
+        </div>
+        <div id="relatedCardPage" class="page">
+            <h2>A card to deepen your thinking</h2>
+            <div id="relatedCardContainer">
+                <img id="relatedCardImage" src="" alt="Card to deepen your thinking" />
+            </div>
+            <div id="commentContainer">
+                <textarea id="relatedCommentArea" placeholder="Write your thoughts (up to 1,000 characters)" maxlength="1000"></textarea>
+            </div>
+            <div id="buttonContainer">
+                <button id="backButtonBottom" onclick="backToSelectedCard()">Back</button>
+                <button id="reflectionButton" onclick="showReflectionPage()">Next</button>
+            </div>
+        </div>
+        <div id="reflectionPage" class="page">
+            <h2>Reflection</h2>
+            <div id="commentContainer">
+                <h3>How are you feeling right now?</h3>
+                <textarea id="reflectionComment1" placeholder="Write your feelings (up to 1,000 characters)" maxlength="1000"></textarea>
+                <h3>How have recent events or your state of mind been?</h3>
+                <textarea id="reflectionComment2" placeholder="Write honestly (up to 1,000 characters)" maxlength="1000"></textarea>
+                <h3>Is there anything you want to share or express to someone?</h3>
+                <textarea id="reflectionComment3" placeholder="If so, write it here (up to 1,000 characters)" maxlength="1000"></textarea>
+            </div>
+            <div id="buttonContainer">
+                <button id="backButtonBottom" onclick="backToRelatedCard()">Back</button>
+                <button id="endButton" onclick="endGame()">Finish</button>
+                <button id="outputButton" onclick="outputData()">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ページ切り替え
+        let currentPageIndex = 0;
+        const pages = document.querySelectorAll('.page');
+
+        function showPage(index) {
+            pages.forEach(page => page.style.display = 'none');
+            pages[index].style.display = 'flex';
+            if (index === 2) {
+                initializeCarousel();
+            }
+        }
+
+        function nextPage() {
+            currentPageIndex++;
+            showPage(currentPageIndex);
+        }
+
+        function backToThemeSelection() {
+            currentPageIndex = 1;
+            showPage(currentPageIndex);
+        }
+
+        function backToCardSelection() {
+            currentPageIndex = 2;
+            showPage(currentPageIndex);
+        }
+
+        function backToSelectedCard() {
+            currentPageIndex = 3;
+            showPage(currentPageIndex);
+        }
+
+        function backToRelatedCard() {
+            currentPageIndex = 4;
+            showPage(currentPageIndex);
+        }
+
+        function showReflectionPage() {
+            currentPageIndex = 5;
+            showPage(currentPageIndex);
+        }
+
+        // テーマの選択
+        let selectedTheme = '';
+
+        function selectTheme(theme) {
+            selectedTheme = theme;
+            nextPage();
+            displayCardImages();
+        }
+
+        function backToIntroPage() {
+	    currentPageIndex = 0;
+	    showPage(currentPageIndex);
+	}
+
+        // カードの選択
+        function confirmSelection() {
+            nextPage();
+        }
+
+        function displayCardImages() {
+            const cardContainer = document.getElementById('cardCarousel');
+            let cardsHTML = '';
+            for (let i = 1; i <= 49; i++) {
+                cardsHTML += `
+                    <div>
+                        <img class="card" src="pic/${i}f.jpeg" data-related-image="pic/${i}b.jpeg" data-card-index="${i}" onclick="selectCard(${i})">
+                    </div>
+                `;
+            }
+            cardContainer.innerHTML = cardsHTML;
+            initializeCarousel();
+        }
+
+        function selectCard(cardIndex) {
+            const selectedCardImage = document.getElementById('selectedCardImage');
+            selectedCardImage.src = `pic/${cardIndex}f.jpeg`;
+            const relatedCardImage = document.getElementById('relatedCardImage');
+            relatedCardImage.src = `pic/${cardIndex}b.jpeg`;
+            const confirmButton = document.getElementById('confirmButton');
+            confirmButton.style.backgroundColor = '#007bff';
+            confirmButton.style.color = '#fff';
+            const card = document.querySelector(`.card[data-card-index="${cardIndex}"]`);
+            card.innerHTML += `<div class="checkmark"></div>`;
+        }
+
+        function prevSlide() {
+            $('#cardCarousel').slick('slickPrev');
+        }
+
+        function nextSlide() {
+            $('#cardCarousel').slick('slickNext');
+        }
+
+        function initializeCarousel() {
+            $('.carousel').slick({
+                infinite: true,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                centerMode: true,
+                variableWidth: false,
+                vertical: false,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        }
+
+        function endGame() {
+            alert('The 414 Card Game will end.');
+            location.reload();
+        }
+
+        function outputData() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const currentDate = `${yyyy}${mm}${dd}`;
+
+            const data = {
+                theme: selectedTheme,
+                selectedCard: document.getElementById('selectedCardImage').src,
+                selectedCardComment: document.getElementById('commentArea').value,
+                relatedCard: document.getElementById('relatedCardImage').src,
+                relatedCardComment: document.getElementById('relatedCommentArea').value,
+                reflectionComment1: document.getElementById('reflectionComment1').value,
+                reflectionComment2: document.getElementById('reflectionComment2').value,
+                reflectionComment3: document.getElementById('reflectionComment3').value,
+                date: currentDate
+            };
+
+            downloadCSV(data);
+        }
+
+        function downloadCSV(data) {
+            let csvContent = 'Date,Selected Theme,Selected Card,Reason for Choosing,Response to Deepening Question,Current Feelings,Recent Events or State of Mind,Things to Share or On Your Mind\n';
+            csvContent += `${data.date},${data.theme},${data.selectedCard},${data.selectedCardComment},${data.relatedCardComment},${data.reflectionComment1},${data.reflectionComment2},${data.reflectionComment3}\n`;
+
+            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]),csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `414card_game_data_${data.date}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        showPage(currentPageIndex);
+    </script>
+</body>
+</html>
